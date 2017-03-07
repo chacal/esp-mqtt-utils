@@ -25,11 +25,9 @@ void connectWiFi(WiFiManager &wifiManager, MqttConfiguration &mqttConfig, void (
          << "IP address: " << WiFi.localIP() << endl;
 }
 
-
-void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, MQTT_CALLBACK_SIGNATURE) {
+void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client) {
   mqttClient.setServer(mqttConfig.server, (uint16_t)atoi(mqttConfig.port));
   mqttClient.setClient(client);
-  mqttClient.setCallback(callback);
 
   // Loop until we're connected
   while(!mqttClient.connected()) {
@@ -44,6 +42,11 @@ void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client
       delay(5000);
     }
   }
+}
+
+void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, MQTT_CALLBACK_SIGNATURE) {
+  mqttClient.setCallback(callback);
+  connectMQTT(mqttClient, mqttConfig, client);
 }
 
 void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, Stream &stream, MQTT_CALLBACK_SIGNATURE) {
