@@ -14,7 +14,7 @@ void connectWiFi(WiFiManager &wifiManager, MqttConfiguration &mqttConfig, void (
 
   wifiManager.setSaveConfigCallback(saveConfigCallback);
 
-  wifiManager.autoConnect("ESP-IR-sender");
+  wifiManager.autoConnect("ESP8266-Setup");
 
   strcpy(mqttConfig.server, serverParam.getValue());
   strcpy(mqttConfig.topicRoot, topicRootParam.getValue());
