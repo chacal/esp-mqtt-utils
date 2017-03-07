@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string.h>
+
 struct MqttConfiguration {
   char server[100];
   char topicRoot[100];
