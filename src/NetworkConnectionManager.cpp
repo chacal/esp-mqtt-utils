@@ -26,10 +26,9 @@ void connectWiFi(WiFiManager &wifiManager, MqttConfiguration &mqttConfig, void (
 }
 
 
-void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, Stream &stream, MQTT_CALLBACK_SIGNATURE) {
+void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, MQTT_CALLBACK_SIGNATURE) {
   mqttClient.setServer(mqttConfig.server, (uint16_t)atoi(mqttConfig.port));
   mqttClient.setClient(client);
-  mqttClient.setStream(stream);
   mqttClient.setCallback(callback);
 
   // Loop until we're connected
@@ -48,4 +47,9 @@ void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client
       delay(5000);
     }
   }
+}
+
+void connectMQTT(PubSubClient &mqttClient, MqttConfiguration &mqttConfig, Client &client, Stream &stream, MQTT_CALLBACK_SIGNATURE) {
+  mqttClient.setStream(stream);
+  connectMQTT(mqttClient, mqttConfig, client, callback);
 }
