@@ -13,8 +13,14 @@ void connectWiFi(WiFiManager &wifiManager, MqttConfiguration &mqttConfig, void (
   wifiManager.addParameter(&topicRootParam);
 
   wifiManager.setSaveConfigCallback(saveConfigCallback);
+  wifiManager.setConfigPortalTimeout(180);
 
-  wifiManager.autoConnect("ESP8266-Setup");
+  if(!wifiManager.autoConnect("ESP8266-Setup")) {
+    Serial << "Timeout while trying to establish WiFi connection. Rebooting.." << endl;
+    delay(3000);
+    ESP.reset();
+    delay(5000);
+  }
 
   strcpy(mqttConfig.server, serverParam.getValue());
   strcpy(mqttConfig.topicRoot, topicRootParam.getValue());
